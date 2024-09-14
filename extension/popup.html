@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Hashtag Recommender</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                padding: 10px;
+                width: 300px;
+            }
+            h1 {
+                font-size: 18px;
+            }
+            #result {
+                margin-top: 10px;
+            }
+            /* .image-preview {
+                max-width: 100%;
+                margin-top: 10px;
+            } */
+            #loading {
+                display: none;
+                text-align: center;
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Hashtag Recommender</h1>
+        
+        <!-- Display the scraped text from the web page -->
+        <h3>Scraped Text:</h3>
+        <p id="scrapedText">No text found.</p>
+
+        <!-- Display the scraped images -->
+        <h3>Scraped Images:</h3>
+        <div id="imageContainer"></div>
+
+        <button id="extractBtn">Extract the Data</button>
+
+        <!-- Button to analyze the scraped data -->
+        <button id="analyzeButton">Analyze Hashtags</button>
+
+        <!-- Loading spinner or message -->
+        <div id="loading">Analyzing...</div>
+
+        <!-- Results (suggested hashtags) will be shown here -->
+        <div id="result">
+            <h3>Suggested Hashtags:</h3>
+            <p id="hashtags">No hashtags yet.</p>
+        </div>
+
+        <script src="popup.js"></script>
+    </body>
+</html>
