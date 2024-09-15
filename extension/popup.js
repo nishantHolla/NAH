@@ -1,3 +1,21 @@
+const url = "https://4487-35-240-196-135.ngrok-free.app";
+
+document.getElementById("clipboard").addEventListener("click", async () => {
+  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+  // Inject and execute the script to extract text
+  chrome.scripting.executeScript(
+    {
+      target: { tabId: tab.id },
+      function: () => {},
+    },
+    async () => {
+      let query = document.getElementById("hashtags").innerText; // Update the output in the popup
+      navigator.clipboard.writeText(query);
+    },
+  );
+});
+
 document.getElementById("extractBtn").addEventListener("click", async () => {
   // Get the active tab
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -15,7 +33,7 @@ document.getElementById("extractBtn").addEventListener("click", async () => {
         document.getElementById("scrapedText").innerText = query; // Update the output in the popup
 
         // Send the extracted text to the FastAPI server via POST
-        const response = await fetch("https://4715-35-240-196-135.ngrok-free.app/api/query/text", {
+        const response = await fetch(`${url}/api/query/text`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -25,9 +43,7 @@ document.getElementById("extractBtn").addEventListener("click", async () => {
 
         // Get the response from the server
         if (response.ok) {
-          const result = await response.json();
-          console.log(result)
-          // Update the UI with the returned hashtags
+          let result = await response.json();
           document.getElementById("hashtags").innerText = result.message;
         } else {
           document.getElementById("hashtags").innerText =
@@ -47,14 +63,39 @@ document.getElementById("extractBtn").addEventListener("click", async () => {
         (results) => {
           // Check if results exist and the result is valid
           if (results && results.length > 0 && results[0].result) {
+            const reader = new FileReader();
+
+            reader.onloadend = function () {
+              const arrayBuffer = reader.result;
+
+              // Send binary data in the POST request
+              fetch("https://your-server-url.com/upload", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/octet-stream",
+                },
+                body: arrayBuffer,
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  console.log("Image uploaded successflly:", data);
+                })
+                .catch((error) => {
+                  console.error("Error uploading image:", error);
+                });
+            };
+
+            // Read the Blob as an ArrayBuffer
+            console.log(typeof results[0].result);
+            reader.readAsArrayBuffer(results[0].result);
             document.getElementById("imageContainer").src = results[0].result; // Update the output in the popup
           } else {
             document.getElementById("imageContainer").src =
               "Failed to extract image."; // Error case
           }
-        }
+        },
       );
-    }
+    },
   );
 });
 
@@ -62,7 +103,7 @@ document.getElementById("extractBtn").addEventListener("click", async () => {
 function extractText() {
   // Try to find the target element (this selector is just an example, adjust as needed)
   const targetElement = document.querySelector(
-    ".xw2csxc.x1odjw0f.x1n2onr6.x1hnll1o.xpqswwc.xl565be.x5dp1im.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x1w2wdq1.xen30ot.x1swvt13.x1pi30zi.xh8yej3.x5n08af>p>span"
+    ".xw2csxc.x1odjw0f.x1n2onr6.x1hnll1o.xpqswwc.xl565be.x5dp1im.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x1w2wdq1.xen30ot.x1swvt13.x1pi30zi.xh8yej3.x5n08af>p>span",
   );
   if (targetElement) {
     const text = targetElement.textContent;
@@ -81,4 +122,3 @@ function extractImage() {
     return "Image not found";
   }
 }
-

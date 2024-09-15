@@ -6,7 +6,8 @@
         "activeTab",
         "scripting",
         "storage",
-        "tabs"
+        "tabs",
+        "clipboardWrite"
     ],
     "host_permissions": [
       "https://www.instagram.com/*",
