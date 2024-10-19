@@ -8,7 +8,7 @@ This project is a **Hashtag Recommendation System**, developed as a **browser ex
 
 - Nishant Holla - PES1UG23CS401 [Github](https://github.com/nishantHolla)
 - Pranav Hemanth - PES1UG23CS433 [Github](https://github.com/Pranavh-2004)
-- Pranav Rajesh Narayan - PES1UG23CS435 [Github](https://github.com/prxnav2005)
+- Pranav Rajesh Narayan - PES1UG23CS435 [Github](https://github.com/pranav-rn)
 - Roshini Ramesh - PES1UG23CS488 [Github](https://github.com/roshr22)
 
 ---
